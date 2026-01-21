@@ -159,6 +159,26 @@
                 </div>
             </div>
 
+            <!-- About Me Preview Section (Added to Home) -->
+            <div class="py-20 bg-gray-50 dark:bg-gray-800/50">
+                <div class="container mx-auto px-4">
+                    <div class="mb-12 text-center">
+                        <h2 class="text-3xl md:text-4xl font-bold font-poppins mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#3bf6d7] to-[#1065b9]">About Me</h2>
+                        <div class="w-16 h-1 bg-[#3bf6d7] mx-auto mb-4 rounded-full"></div>
+                    </div>
+                    
+                    <div id="home-about-preview">
+                        <!-- JSによってコンテンツが注入されます -->
+                    </div>
+
+                    <div class="text-center mt-10">
+                        <button onclick="navigateTo('about')" class="px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:-translate-y-1 shadow-lg border-2 border-[#3bf6d7] text-[#3bf6d7] hover:bg-[#3bf6d7] hover:text-white">
+                            Aboutページへ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Recent Works Section -->
             <div class="py-20 bg-white dark:bg-gray-900">
                 <div class="container mx-auto px-4">
@@ -377,7 +397,7 @@
             </div>
             <div class="w-full h-px bg-gray-800 mb-8 max-w-xl mx-auto"></div>
             <p class="text-gray-500 text-sm">
-                © <span id="year"></span> MyPortfolio. All Rights Reserved. <span class="ml-2 opacity-40">v1.0.0</span>
+                © <span id="year"></span> MyPortfolio. All Rights Reserved. <span class="ml-2 opacity-40">v1.0.4</span>
             </p>
         </div>
     </footer>
@@ -387,28 +407,23 @@
         <i data-lucide="arrow-up" class="w-5 h-5"></i>
     </button>
 
-    <!-- Work Modal -->
-    <div id="work-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden animate-fade-in" onclick="closeModal()">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative" onclick="event.stopPropagation()">
+    <!-- Work Modal (Layout Updated) -->
+    <div id="work-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden animate-fade-in" onclick="closeModal()">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl relative flex flex-col" onclick="event.stopPropagation()">
             <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/80 dark:bg-black/50 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors z-10">
                 <i data-lucide="x" class="w-5 h-5 text-gray-800 dark:text-white"></i>
             </button>
             
-            <div class="relative h-64 md:h-80 w-full">
-                <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
-            </div>
-            
-            <div class="p-6 md:p-8">
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <span id="modal-category" class="px-3 py-1 bg-[#3bf6d7]/20 text-[#1065b9] dark:text-[#3bf6d7] text-sm font-medium rounded-full"></span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span id="modal-date"></span>
-                    </span>
+            <div class="p-6 md:p-8 space-y-6">
+                <!-- Image Section -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 text-center">商品サンプル画像</h4>
+                    <div class="flex items-center justify-center bg-gray-100 dark:bg-gray-900 rounded-xl p-2">
+                        <img id="modal-image" src="" alt="" class="w-full h-auto max-h-[60vh] object-contain rounded-lg">
+                    </div>
                 </div>
-                
-                <h2 id="modal-title" class="text-2xl md:text-3xl font-bold mb-4 text-gray-800 dark:text-white"></h2>
-                <p id="modal-description" class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed"></p>
-                
+
+                <!-- Info Section -->
                 <div class="grid md:grid-cols-2 gap-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
                     <div>
                         <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">制作期間</h4>
@@ -462,6 +477,7 @@
             renderWorksFilter();
             renderWorks(); // 全作品
             renderHomeWorks(); // Home用トップ3
+            renderHomeAbout(); // Home用About
             document.getElementById('year').textContent = new Date().getFullYear();
             
             // アイコン初期化
@@ -583,6 +599,43 @@
             container.innerHTML = works.map(work => createWorkCardHTML(work)).join('');
         }
 
+        // Home: About Preview
+        function renderHomeAbout() {
+            const container = document.getElementById('home-about-preview');
+            // Aboutページのコンテンツを複製する形でHTMLを生成
+            container.innerHTML = `
+                <div class="flex flex-col lg:flex-row gap-12 items-center max-w-6xl mx-auto">
+                    <div class="w-full lg:w-1/3 flex justify-center">
+                        <div class="relative w-64 h-64 md:w-80 md:h-80">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-[#3bf6d7] to-[#1065b9] rounded-full blur-lg opacity-50 animate-pulse"></div>
+                            <img src="./AbotMe.jpg" alt="Profile" class="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-800 shadow-xl" onerror="this.src='/api/placeholder/400/400'">
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-2/3">
+                        <h3 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">AIと共に、新しい価値を創造する。</h3>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                            はじめまして。AIクリエーターの竹内二三彦（23hiko）です。
+                            <br><br>
+                            生成AIを使い始めて3年、これまでにYoutubeのサムネ、ショート動画、アバター、ロゴ、チラシ、ポスター、GPTsなどを作成してきました。
+                            <br><br>
+                            私のミッションは、最新のテクノロジーを活用して、クライアント様のイメージを「形」にし、ビジネスの成長をサポートすることです。
+                            従来の制作フローでは考えられなかったスピードと、AI特有の偶発性をコントロールした高品質なアウトプットをお約束します。
+                        </p>
+                        <div class="mb-8">
+                            <h4 class="text-sm font-bold uppercase text-gray-500 mb-4 tracking-wider">Skill Set</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200">Gemini</span>
+                                <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200">ChatGPT</span>
+                                <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200">Claude</span>
+                                <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200">Canva</span>
+                                <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200">SnovaAI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         // Works: フィルター
         function renderWorksFilter() {
             const container = document.getElementById('works-filter');
@@ -650,7 +703,7 @@
             `;
         }
 
-        // About: Timeline
+        // About: Timeline (Updated: Removed Blue Dots)
         function renderTimeline() {
             const container = document.getElementById('timeline-container');
             container.innerHTML = TIMELINE_DATA.map(item => `
@@ -660,8 +713,8 @@
                             ${item.year}
                         </span>
                     </div>
-                    <div class="absolute left-[-9px] top-2 w-5 h-5 rounded-full bg-white dark:bg-gray-900 border-4 border-[#1065b9] md:left-1/2 md:-ml-[10px] z-10"></div>
-                    <div class="md:w-2/3 md:pl-8">
+                    
+                    <div class="md:w-2/3 md:pl-8 border-l-2 border-gray-200 dark:border-gray-700 md:border-l-0 md:border-l-transparent">
                         <h4 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">${item.title}</h4>
                         <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
                             ${item.description}
@@ -685,19 +738,15 @@
             `).join('');
         }
 
-        // --- モーダル制御 ---
+        // --- モーダル制御 (Updated: Added Label "商品サンプル画像") ---
         function openModal(workId) {
             const work = WORKS_DATA.find(w => w.id === workId);
             if(!work) return;
 
             const modal = document.getElementById('work-modal');
             
-            // データセット
+            // データセット（タイトル、説明、日付、カテゴリは削除）
             document.getElementById('modal-image').src = work.image;
-            document.getElementById('modal-category').textContent = work.category;
-            document.getElementById('modal-date').textContent = work.date;
-            document.getElementById('modal-title').textContent = work.title;
-            document.getElementById('modal-description').textContent = work.description;
             document.getElementById('modal-period').textContent = work.period;
             
             const toolsContainer = document.getElementById('modal-tools');
